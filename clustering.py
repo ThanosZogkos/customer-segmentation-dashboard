@@ -53,7 +53,7 @@ class CustomerSegmentation:
                     score = silhouette_score(scaled_data, kmeans.labels_)
                     silhouette_scores.append(score)
             
-            st.success(f"✅ Completed clustering analysis for {max_clusters} cluster configurations")
+            st.success(f"Completed clustering analysis for {max_clusters} cluster configurations")
             return inertias, silhouette_scores
             
         except Exception as e:
@@ -81,7 +81,7 @@ class CustomerSegmentation:
             else:
                 optimal_k = 4  # Default fallback
             
-            st.info(f"🎯 Elbow method suggests {optimal_k} clusters as optimal")
+            st.info(f"Elbow method suggests {optimal_k} clusters as optimal")
             return optimal_k
             
         except Exception as e:
@@ -120,7 +120,7 @@ class CustomerSegmentation:
             inertia = self.kmeans_model.inertia_
             
             st.success(f"""
-            ✅ **Clustering Complete!**
+            **Clustering Complete!**
             - Number of clusters: {n_clusters}
             - Silhouette score: {silhouette_avg:.3f}
             - Inertia: {inertia:.2f}
@@ -381,7 +381,7 @@ class CustomerSegmentation:
             return clustered_df, cluster_centers, linkage_matrix
             
         except Exception as e:
-            st.error(f"❌ Error performing hierarchical clustering: {str(e)}")
+            st.error(f"Error performing hierarchical clustering: {str(e)}")
             raise e
     
     def compare_clustering_algorithms(self, data, feature_columns, n_clusters=4, dbscan_eps=0.5, dbscan_min_samples=5):
