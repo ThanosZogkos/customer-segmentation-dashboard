@@ -67,7 +67,7 @@ class DataProcessor:
             # Handle missing values
             missing_before = processed_df.isnull().sum().sum()
             processed_df = processed_df.dropna()
-            missing_after = len(df) - len(processed_df) - duplicates_removed
+            missing_removed = missing_before
             
             # Data type validation and conversion
             processed_df['CustomerID'] = processed_df['CustomerID'].astype(int)
@@ -88,15 +88,15 @@ class DataProcessor:
             # Standardize gender values
             processed_df['Gender'] = processed_df['Gender'].str.strip().str.title()
             
-            outliers_removed = len(df) - len(processed_df) - duplicates_removed - missing_after
+            outliers_removed = len(df) - len(processed_df) - duplicates_removed - missing_removed
             
             # Display preprocessing summary
-            if duplicates_removed > 0 or missing_after > 0 or outliers_removed > 0:
+            if duplicates_removed > 0 or missing_removed > 0 or outliers_removed > 0:
                 st.info(f"""
                 📊 **Data Preprocessing Summary:**
                 - Original records: {initial_count}
                 - Duplicates removed: {duplicates_removed}
-                - Missing values removed: {missing_after}
+                - Missing values removed: {missing_removed}
                 - Outliers removed: {outliers_removed}
                 - **Final records: {len(processed_df)}**
                 """)

@@ -330,15 +330,15 @@ class CustomerSegmentation:
             
             # Calculate number of clusters (excluding noise points labeled as -1)
             n_clusters = len(set(cluster_labels)) - (1 if -1 in cluster_labels else 0)
-            n_noise = list(cluster_labels).count(-1)
+            n_noise = (cluster_labels == -1).sum()
             
             # Calculate cluster centers (excluding noise points)
             cluster_centers = []
             unique_labels = set(cluster_labels)
-            if -1 in unique_labels:
-                unique_labels.remove(-1)  # Remove noise label
+            # Remove noise label if present
+            unique_labels = {label for label in unique_labels if label != -1}
             
-            for label in sorted(unique_labels):
+            for label in sorted([int(l) for l in unique_labels]):
                 mask = cluster_labels == label
                 center = scaled_features[mask].mean(axis=0)
                 cluster_centers.append(self.scaler.inverse_transform(center.reshape(1, -1))[0])
@@ -497,7 +497,7 @@ class CustomerSegmentation:
             results['DBSCAN'] = {
                 'labels': dbscan_labels,
                 'n_clusters': dbscan_n_clusters,
-                'n_noise': list(dbscan_labels).count(-1),
+                'n_noise': (dbscan_labels == -1).sum(),
                 'silhouette': dbscan_silhouette,
                 'calinski_harabasz': dbscan_calinski,
                 'davies_bouldin': dbscan_davies_bouldin

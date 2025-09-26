@@ -775,7 +775,7 @@ class VisualizationGenerator:
             fig, ax = plt.subplots(figsize=(12, 8))
             
             # Create dendrogram
-            dendrogram_data = dendrogram(
+            dendrogram(
                 linkage_matrix,
                 ax=ax,
                 leaf_rotation=90,

@@ -375,7 +375,12 @@ class ClusterStabilityAnalyzer:
             dict: Recommendation with reasoning
         """
         if not metrics_list:
-            return {"algorithm": "None", "reasoning": "No metrics available"}
+            return {
+                "algorithm": "None", 
+                "reasoning": "No metrics available",
+                "score": 0,
+                "all_scores": {}
+            }
         
         # Scoring system (normalized between 0-1)
         scores = {}
