@@ -10,9 +10,9 @@ from io import BytesIO
 import base64
 
 class VisualizationGenerator:
-    """
-    Generates interactive visualizations for customer segmentation analysis.
-    """
+  
+    #Generates interactive visualizations for customer segmentation analysis.
+    
     
     def __init__(self):
         # Color palette for consistent styling
@@ -32,17 +32,9 @@ class VisualizationGenerator:
         ]
     
     def create_elbow_plot(self, k_values, inertias, optimal_k):
-        """
-        Create elbow plot for optimal cluster determination.
         
-        Args:
-            k_values (range): Range of k values tested
-            inertias (list): Corresponding inertia values
-            optimal_k (int): Optimal number of clusters
-            
-        Returns:
-            plotly.graph_objects.Figure: Elbow plot
-        """
+       # Create elbow plot for optimal cluster determination.
+       
         try:
             fig = go.Figure()
             
@@ -84,16 +76,9 @@ class VisualizationGenerator:
             return go.Figure()
     
     def create_silhouette_plot(self, k_values, silhouette_scores):
-        """
-        Create silhouette score plot for cluster validation.
+       
+        #Create silhouette score plot for cluster validation.
         
-        Args:
-            k_values (range): Range of k values tested
-            silhouette_scores (list): Corresponding silhouette scores
-            
-        Returns:
-            plotly.graph_objects.Figure: Silhouette plot
-        """
         try:
             fig = go.Figure()
             
@@ -136,19 +121,9 @@ class VisualizationGenerator:
             return go.Figure()
     
     def create_cluster_scatter(self, data, x_col, y_col, cluster_col, cluster_centers=None):
-        """
-        Create 2D scatter plot showing customer clusters with centroids.
         
-        Args:
-            data (pd.DataFrame): Clustered customer data
-            x_col (str): Column name for x-axis
-            y_col (str): Column name for y-axis
-            cluster_col (str): Column name for cluster assignments
-            cluster_centers (np.ndarray): Cluster centers coordinates (optional)
-            
-        Returns:
-            plotly.graph_objects.Figure: Scatter plot with centroids
-        """
+       # Create 2D scatter plot showing customer clusters with centroids.
+        
         try:
             # Create figure
             fig = go.Figure()
@@ -268,17 +243,9 @@ class VisualizationGenerator:
             return go.Figure()
     
     def create_3d_cluster_plot(self, data, cluster_centers=None, show_centers=True):
-        """
-        Create enhanced 3D scatter plot for comprehensive cluster visualization.
         
-        Args:
-            data (pd.DataFrame): Clustered customer data
-            cluster_centers (np.ndarray): Cluster centers coordinates
-            show_centers (bool): Whether to show cluster centers
-            
-        Returns:
-            plotly.graph_objects.Figure: Enhanced 3D scatter plot
-        """
+        #Create enhanced 3D scatter plot for comprehensive cluster visualization.
+        
         try:
             unique_clusters = sorted(data['Cluster'].unique())
             
@@ -402,16 +369,9 @@ class VisualizationGenerator:
             return go.Figure()
     
     def create_multidimensional_analysis_plot(self, data, features):
-        """
-        Create multi-dimensional analysis with parallel coordinates and correlation matrix.
-        
-        Args:
-            data (pd.DataFrame): Clustered customer data
-            features (list): Features to analyze
-            
-        Returns:
-            tuple: (parallel_coordinates_fig, correlation_heatmap_fig)
-        """
+       
+       # Create multi-dimensional analysis with parallel coordinates and correlation matrix.
+       
         try:
             # Parallel coordinates plot
             feature_data = data[features + ['Cluster']].copy()
@@ -494,16 +454,9 @@ class VisualizationGenerator:
             return go.Figure(), go.Figure()
     
     def create_cluster_volume_analysis(self, data, features):
-        """
-        Create 3D volume analysis showing cluster density and boundaries.
         
-        Args:
-            data (pd.DataFrame): Clustered customer data
-            features (list): Three features for 3D analysis
-            
-        Returns:
-            plotly.graph_objects.Figure: 3D volume analysis plot
-        """
+       # Create 3D volume analysis showing cluster density and boundaries.
+        
         try:
             if len(features) != 3:
                 st.warning("Volume analysis requires exactly 3 features. Using first 3.")
@@ -582,15 +535,9 @@ class VisualizationGenerator:
             return go.Figure()
     
     def create_cluster_distribution(self, data):
-        """
-        Create pie chart showing cluster size distribution.
         
-        Args:
-            data (pd.DataFrame): Clustered customer data
-            
-        Returns:
-            plotly.graph_objects.Figure: Pie chart
-        """
+       # Create pie chart showing cluster size distribution.
+        
         try:
             cluster_counts = data['Cluster'].value_counts().sort_index()
             
@@ -619,15 +566,9 @@ class VisualizationGenerator:
             return go.Figure()
     
     def create_gender_distribution_by_cluster(self, data):
-        """
-        Create stacked bar chart showing gender distribution by cluster.
         
-        Args:
-            data (pd.DataFrame): Clustered customer data
-            
-        Returns:
-            plotly.graph_objects.Figure: Stacked bar chart
-        """
+       # Create stacked bar chart showing gender distribution by cluster.
+        
         try:
             # Calculate gender distribution by cluster
             gender_cluster = data.groupby(['Cluster', 'Gender']).size().unstack(fill_value=0)
@@ -660,16 +601,9 @@ class VisualizationGenerator:
             return go.Figure()
     
     def create_feature_comparison_by_cluster(self, data, features):
-        """
-        Create radar chart comparing features across clusters.
         
-        Args:
-            data (pd.DataFrame): Clustered customer data
-            features (list): Features to compare
-            
-        Returns:
-            plotly.graph_objects.Figure: Radar chart
-        """
+       # Create radar chart comparing features across clusters.
+       
         try:
             fig = go.Figure()
             
@@ -721,16 +655,9 @@ class VisualizationGenerator:
             return go.Figure()
     
     def create_cluster_heatmap(self, data, features):
-        """
-        Create heatmap showing average feature values by cluster.
+       
+       # Create heatmap showing average feature values by cluster.
         
-        Args:
-            data (pd.DataFrame): Clustered customer data
-            features (list): Features to display
-            
-        Returns:
-            plotly.graph_objects.Figure: Heatmap
-        """
         try:
             # Calculate average values by cluster
             cluster_means = data.groupby('Cluster')[features].mean()
@@ -761,16 +688,9 @@ class VisualizationGenerator:
             return go.Figure()
     
     def create_dendrogram_plot(self, linkage_matrix, feature_names):
-        """
-        Create dendrogram visualization for hierarchical clustering.
         
-        Args:
-            linkage_matrix (np.ndarray): Linkage matrix from hierarchical clustering
-            feature_names (list): Names of features used for clustering
-            
-        Returns:
-            str: Base64 encoded dendrogram image
-        """
+     #   Create dendrogram visualization for hierarchical clustering.
+     
         try:
             fig, ax = plt.subplots(figsize=(12, 8))
             
@@ -808,15 +728,9 @@ class VisualizationGenerator:
             return ""
     
     def create_algorithm_comparison_plot(self, comparison_results):
-        """
-        Create comparison visualization for different clustering algorithms.
         
-        Args:
-            comparison_results (dict): Results from algorithm comparison
-            
-        Returns:
-            plotly.graph_objects.Figure: Comparison plot
-        """
+        #Create comparison visualization for different clustering algorithms.
+        
         try:
             algorithms = list(comparison_results.keys())
             
@@ -900,16 +814,9 @@ class VisualizationGenerator:
             return go.Figure()
     
     def create_cluster_stability_plot(self, stability_scores, k_range):
-        """
-        Create cluster stability analysis visualization.
         
-        Args:
-            stability_scores (list): Stability scores for different k values
-            k_range (range): Range of k values tested
-            
-        Returns:
-            plotly.graph_objects.Figure: Stability plot
-        """
+        #Create cluster stability analysis visualization.
+        
         try:
             fig = go.Figure()
             
