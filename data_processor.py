@@ -72,7 +72,7 @@ class DataProcessor:
                 (processed_df['Annual Income (k$)'] >= 0) & (processed_df['Annual Income (k$)'] <= 200) &
                 (processed_df['Spending Score (1-100)'] >= 1) & (processed_df['Spending Score (1-100)'] <= 100)
             ]
-            
+             
             # Standardize gender values
             processed_df['Gender'] = processed_df['Gender'].str.strip().str.title()
             
