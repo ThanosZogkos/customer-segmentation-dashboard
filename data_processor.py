@@ -103,7 +103,7 @@ class DataProcessor:
     
     def display_data_summary(self, df):
        
-        Display summary statistics of the processed data.
+        #Display summary statistics of the processed data.
         
         try:
             st.subheader("Data Summary")
