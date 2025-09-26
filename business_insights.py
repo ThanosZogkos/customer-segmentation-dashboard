@@ -3,10 +3,9 @@ import numpy as np
 import streamlit as st
 
 class BusinessInsights:
-    """
-    Generates business insights and recommendations based on customer segmentation.
-    """
     
+   #Generates business insights and recommendations based on customer segmentation.
+        
     def __init__(self):
         # Define customer personas and marketing strategies
         self.personas = {
@@ -43,17 +42,8 @@ class BusinessInsights:
         }
     
     def generate_cluster_insights(self, clustered_df, cluster_centers, feature_columns):
-        """
-        Generate comprehensive business insights for each cluster.
-        
-        Args:
-            clustered_df (pd.DataFrame): Customer data with cluster assignments
-            cluster_centers (np.ndarray): Cluster center coordinates
-            feature_columns (list): Features used for clustering
-            
-        Returns:
-            dict: Detailed insights for each cluster
-        """
+      
+        #Generate comprehensive business insights for each cluster.
         try:
             insights = {}
             
@@ -114,18 +104,9 @@ class BusinessInsights:
             return {}
     
     def _classify_cluster(self, avg_income, avg_spending, overall_income, overall_spending):
-        """
-        Classify cluster based on income and spending patterns.
         
-        Args:
-            avg_income (float): Average income of cluster
-            avg_spending (float): Average spending score of cluster
-            overall_income (float): Overall average income
-            overall_spending (float): Overall average spending
-            
-        Returns:
-            str: Cluster classification
-        """
+        #Classify cluster based on income and spending patterns.
+        
         income_threshold = overall_income
         spending_threshold = overall_spending
         
@@ -142,21 +123,9 @@ class BusinessInsights:
     
     def _generate_cluster_profile(self, avg_age, avg_income, avg_spending, gender_dist, 
                                  overall_age, overall_income, overall_spending):
-        """
-        Generate detailed cluster profile description.
         
-        Args:
-            avg_age (float): Average age
-            avg_income (float): Average income
-            avg_spending (float): Average spending
-            gender_dist (pd.Series): Gender distribution
-            overall_age (float): Overall average age
-            overall_income (float): Overall average income
-            overall_spending (float): Overall average spending
-            
-        Returns:
-            str: Detailed profile description
-        """
+        #Generate detailed cluster profile description.
+        
         age_desc = "young" if avg_age < overall_age - 5 else "older" if avg_age > overall_age + 5 else "middle-aged"
         income_desc = "high-income" if avg_income > overall_income * 1.2 else "low-income" if avg_income < overall_income * 0.8 else "moderate-income"
         spending_desc = "high-spending" if avg_spending > overall_spending * 1.2 else "low-spending" if avg_spending < overall_spending * 0.8 else "moderate-spending"
@@ -173,19 +142,9 @@ class BusinessInsights:
         return profile
     
     def _generate_marketing_strategy(self, cluster_type, avg_age, avg_income, avg_spending, size):
-        """
-        Generate targeted marketing strategy for the cluster.
         
-        Args:
-            cluster_type (str): Type of cluster
-            avg_age (float): Average age
-            avg_income (float): Average income
-            avg_spending (float): Average spending
-            size (int): Cluster size
-            
-        Returns:
-            str: Marketing strategy recommendation
-        """
+       # Generate targeted marketing strategy for the cluster.
+        
         base_strategy = self.personas[cluster_type]['strategy']
         
         # Age-based modifications
@@ -207,19 +166,9 @@ class BusinessInsights:
         return f"{base_strategy} {age_strategy}{size_strategy}"
     
     def _generate_revenue_opportunities(self, cluster_type, avg_age, avg_income, avg_spending, size):
-        """
-        Generate revenue opportunity recommendations.
+      
+        #Generate revenue opportunity recommendations.
         
-        Args:
-            cluster_type (str): Type of cluster
-            avg_age (float): Average age
-            avg_income (float): Average income
-            avg_spending (float): Average spending
-            size (int): Cluster size
-            
-        Returns:
-            str: Revenue opportunities description
-        """
         base_opportunities = self.personas[cluster_type]['opportunities']
         
         # Calculate potential revenue impact
@@ -246,18 +195,9 @@ class BusinessInsights:
         return f"{base_opportunities} {revenue_desc}{age_opportunities}{specific_opportunities}"
     
     def _calculate_priority_level(self, avg_income, avg_spending, size, percentage):
-        """
-        Calculate priority level for business focus.
+       
+        #Calculate priority level for business focus.
         
-        Args:
-            avg_income (float): Average income
-            avg_spending (float): Average spending
-            size (int): Cluster size
-            percentage (float): Percentage of total customers
-            
-        Returns:
-            str: Priority level (High, Medium, Low)
-        """
         # Calculate composite score
         income_score = min(avg_income / 100, 1.0)  # Normalize to 0-1
         spending_score = avg_spending / 100  # Already 0-1
@@ -273,15 +213,9 @@ class BusinessInsights:
             return "Low"
     
     def generate_overall_recommendations(self, insights):
-        """
-        Generate overall business recommendations based on all clusters.
         
-        Args:
-            insights (dict): Cluster insights
-            
-        Returns:
-            dict: Overall recommendations
-        """
+    # Generate overall business recommendations based on all clusters.
+    
         try:
             total_customers = sum(insight['size'] for insight in insights.values())
             high_priority_clusters = [k for k, v in insights.items() if v['priority_level'] == 'High']
