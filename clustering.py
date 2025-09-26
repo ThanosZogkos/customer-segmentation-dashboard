@@ -10,10 +10,9 @@ import warnings
 warnings.filterwarnings('ignore')
 
 class CustomerSegmentation:
-    """
-    Handles multiple clustering algorithms for customer segmentation analysis.
-    """
-    
+   
+   # Handles multiple clustering algorithms for customer segmentation analysis.
+   
     def __init__(self, random_state=42):
         self.random_state = random_state
         self.scaler = StandardScaler()
@@ -25,16 +24,9 @@ class CustomerSegmentation:
         self.last_algorithm = None
     
     def find_optimal_clusters(self, data, max_clusters=10):
-        """
-        Find optimal number of clusters using elbow method and silhouette analysis.
         
-        Args:
-            data (pd.DataFrame): Feature data for clustering
-            max_clusters (int): Maximum number of clusters to test
-            
-        Returns:
-            tuple: (inertias, silhouette_scores)
-        """
+        #Find optimal number of clusters using elbow method and silhouette analysis.
+        
         try:
             # Scale the features
             scaled_data = self.scaler.fit_transform(data)
@@ -65,19 +57,13 @@ class CustomerSegmentation:
             return inertias, silhouette_scores
             
         except Exception as e:
-            st.error(f"❌ Error in optimal cluster analysis: {str(e)}")
+            st.error(f"Error in optimal cluster analysis: {str(e)}")
             raise e
     
     def get_optimal_clusters_elbow(self, inertias):
-        """
-        Determine optimal number of clusters using elbow method.
         
-        Args:
-            inertias (list): List of inertia values for different cluster numbers
-            
-        Returns:
-            int: Optimal number of clusters
-        """
+        #Determine optimal number of clusters using elbow method.
+        
         try:
             # Calculate the rate of change in inertias
             if len(inertias) < 3:
@@ -103,17 +89,9 @@ class CustomerSegmentation:
             return 4  # Safe fallback
     
     def perform_clustering(self, data, feature_columns, n_clusters):
-        """
-        Perform K-Means++ clustering on the customer data.
         
-        Args:
-            data (pd.DataFrame): Customer data
-            feature_columns (list): Columns to use for clustering
-            n_clusters (int): Number of clusters
-            
-        Returns:
-            tuple: (clustered_dataframe, cluster_centers)
-        """
+       # Perform K-Means++ clustering on the customer data.
+        
         try:
             # Prepare features for clustering
             features = data[feature_columns].values
@@ -154,20 +132,15 @@ class CustomerSegmentation:
             return clustered_df, cluster_centers
             
         except Exception as e:
-            st.error(f"❌ Error performing clustering: {str(e)}")
+            st.error(f"Error performing clustering: {str(e)}")
             raise e
     
     def display_cluster_summary(self, clustered_df, cluster_centers, feature_columns):
-        """
-        Display summary of clustering results.
-        
-        Args:
-            clustered_df (pd.DataFrame): Data with cluster assignments
-            cluster_centers (np.ndarray): Cluster center coordinates
-            feature_columns (list): Names of features used for clustering
-        """
+       
+        #Display summary of clustering results.
+       
         try:
-            st.subheader("🎯 Cluster Summary")
+            st.subheader("Cluster Summary")
             
             # Create cluster summary table
             cluster_summary = []
@@ -193,16 +166,9 @@ class CustomerSegmentation:
             st.warning(f"Could not display cluster summary: {str(e)}")
     
     def predict_cluster(self, new_data, feature_columns):
-        """
-        Predict cluster for new customer data.
         
-        Args:
-            new_data (pd.DataFrame): New customer data
-            feature_columns (list): Features used for clustering
-            
-        Returns:
-            np.ndarray: Predicted cluster labels
-        """
+       # Predict cluster for new customer data.
+        
         try:
             if self.kmeans_model is None:
                 raise ValueError("Model not trained. Please perform clustering first.")
@@ -214,20 +180,13 @@ class CustomerSegmentation:
             return predictions
             
         except Exception as e:
-            st.error(f"❌ Error predicting clusters: {str(e)}")
+            st.error(f"Error predicting clusters: {str(e)}")
             raise e
     
     def calculate_cluster_distances(self, data, feature_columns):
-        """
-        Calculate distance of each point from its cluster center.
+       
+        #Calculate distance of each point from its cluster center.
         
-        Args:
-            data (pd.DataFrame): Clustered customer data
-            feature_columns (list): Features used for clustering
-            
-        Returns:
-            np.ndarray: Distances from cluster centers
-        """
         try:
             if self.kmeans_model is None:
                 raise ValueError("Model not trained. Please perform clustering first.")
@@ -250,16 +209,9 @@ class CustomerSegmentation:
             return np.array([])
     
     def get_cluster_characteristics(self, clustered_df, feature_columns):
-        """
-        Get detailed characteristics of each cluster.
         
-        Args:
-            clustered_df (pd.DataFrame): Data with cluster assignments
-            feature_columns (list): Features used for clustering
-            
-        Returns:
-            dict: Detailed cluster characteristics
-        """
+        #Get detailed characteristics of each cluster.
+        
         try:
             characteristics = {}
             
@@ -303,18 +255,9 @@ class CustomerSegmentation:
             return {}
     
     def perform_dbscan_clustering(self, data, feature_columns, eps=0.5, min_samples=5):
-        """
-        Perform DBSCAN clustering on the customer data.
         
-        Args:
-            data (pd.DataFrame): Customer data
-            feature_columns (list): Columns to use for clustering
-            eps (float): The maximum distance between two samples for clustering
-            min_samples (int): The minimum number of samples in a neighborhood
-            
-        Returns:
-            tuple: (clustered_dataframe, cluster_centers, n_clusters)
-        """
+       # Perform DBSCAN clustering on the customer data.
+
         try:
             # Prepare features for clustering
             features = data[feature_columns].values
@@ -363,7 +306,7 @@ class CustomerSegmentation:
             self.last_algorithm = 'DBSCAN'
             
             st.success(f"""
-            ✅ **DBSCAN Clustering Complete!**
+             **DBSCAN Clustering Complete!**
             - Number of clusters: {n_clusters}
             - Noise points: {n_noise}
             - Silhouette score: {silhouette_avg:.3f}
@@ -374,7 +317,7 @@ class CustomerSegmentation:
             return clustered_df, cluster_centers, n_clusters
             
         except Exception as e:
-            st.error(f"❌ Error performing DBSCAN clustering: {str(e)}")
+            st.error(f"Error performing DBSCAN clustering: {str(e)}")
             raise e
     
     def perform_hierarchical_clustering(self, data, feature_columns, n_clusters, linkage_method='ward'):
@@ -427,7 +370,7 @@ class CustomerSegmentation:
             self.last_algorithm = 'Hierarchical'
             
             st.success(f"""
-            ✅ **Hierarchical Clustering Complete!**
+             **Hierarchical Clustering Complete!**
             - Number of clusters: {n_clusters}
             - Linkage method: {linkage_method}
             - Silhouette score: {silhouette_avg:.3f}
@@ -516,9 +459,9 @@ class CustomerSegmentation:
                 'davies_bouldin': davies_bouldin_score(scaled_features, hierarchical_labels)
             }
             
-            st.success("✅ Algorithm comparison completed successfully!")
+            st.success("Algorithm comparison completed successfully!")
             return results
             
         except Exception as e:
-            st.error(f"❌ Error comparing algorithms: {str(e)}")
+            st.error(f"Error comparing algorithms: {str(e)}")
             raise e
