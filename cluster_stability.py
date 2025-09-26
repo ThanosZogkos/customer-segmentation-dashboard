@@ -10,9 +10,9 @@ import streamlit as st
 
 
 class ClusterStabilityAnalyzer:
-    """
-    Advanced cluster stability analysis and validation metrics.
-    """
+    
+    #Advanced cluster stability analysis and validation metrics.
+    
     
     def __init__(self):
         """Initialize the cluster stability analyzer."""
@@ -22,18 +22,10 @@ class ClusterStabilityAnalyzer:
         ]
     
     def calculate_comprehensive_metrics(self, data, features, labels, algorithm='K-Means++'):
-        """
-        Calculate comprehensive clustering quality metrics.
+       
+      #  Calculate comprehensive clustering quality metrics.
         
-        Args:
-            data (pd.DataFrame): Original data
-            features (list): Feature columns used for clustering
-            labels (np.array): Cluster labels
-            algorithm (str): Clustering algorithm name
-            
-        Returns:
-            dict: Comprehensive metrics dictionary
-        """
+    
         try:
             X = data[features].values
             
@@ -104,7 +96,8 @@ class ClusterStabilityAnalyzer:
             }
     
     def _calculate_cluster_separation(self, X, labels):
-        """Calculate average distance between cluster centers."""
+        #Calculate average distance between cluster centers.
+        
         try:
             unique_labels = np.unique(labels)
             if len(unique_labels) < 2:
@@ -130,7 +123,8 @@ class ClusterStabilityAnalyzer:
             return 0
     
     def _calculate_cluster_compactness(self, X, labels):
-        """Calculate average within-cluster sum of squares."""
+        #Calculate average within-cluster sum of squares.
+        
         try:
             unique_labels = np.unique(labels)
             total_wcss = 0
@@ -150,18 +144,9 @@ class ClusterStabilityAnalyzer:
             return 0
     
     def create_silhouette_analysis_plot(self, data, features, labels, algorithm='K-Means++'):
-        """
-        Create detailed silhouette analysis visualization.
         
-        Args:
-            data (pd.DataFrame): Original data
-            features (list): Feature columns
-            labels (np.array): Cluster labels
-            algorithm (str): Algorithm name
-            
-        Returns:
-            plotly.graph_objects.Figure: Silhouette analysis plot
-        """
+       # Create detailed silhouette analysis visualization.
+        
         try:
             X = data[features].values
             
@@ -249,15 +234,9 @@ class ClusterStabilityAnalyzer:
             return go.Figure()
     
     def create_cluster_validation_dashboard(self, metrics_list):
-        """
-        Create comprehensive cluster validation dashboard.
         
-        Args:
-            metrics_list (list): List of metrics dictionaries from different algorithms
-            
-        Returns:
-            plotly.graph_objects.Figure: Validation dashboard
-        """
+       # Create comprehensive cluster validation dashboard.
+        
         try:
             if not metrics_list:
                 return go.Figure()
@@ -365,15 +344,9 @@ class ClusterStabilityAnalyzer:
             return go.Figure()
     
     def recommend_optimal_algorithm(self, metrics_list):
-        """
-        Recommend the optimal clustering algorithm based on metrics.
         
-        Args:
-            metrics_list (list): List of metrics from different algorithms
-            
-        Returns:
-            dict: Recommendation with reasoning
-        """
+       # Recommend the optimal clustering algorithm based on metrics.
+        
         if not metrics_list:
             return {
                 "algorithm": "None", 
