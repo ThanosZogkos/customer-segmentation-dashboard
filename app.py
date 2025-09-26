@@ -57,20 +57,19 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def main():
-    # Welcome users with a friendly header
+    
     st.markdown('<h1 class="main-header">Welcome to Your Customer Insights Dashboard</h1>', unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; font-size: 1.2rem; color: #666; margin-bottom: 2rem;'>Let's discover the hidden patterns in your customer behavior and unlock powerful business insights!</p>", unsafe_allow_html=True)
     
-    # Set up our data analysis tools
+    # Set up data analysis tools
     customer_data_analyzer = DataProcessor()
     
-    # Let's load and prepare your customer data for analysis
     try:
-        # Load the customer information from our database
+        # Load the customer information from database
         customer_records = customer_data_analyzer.load_data("attached_assets/Mall_Customers_1758472298487.csv")
         clean_customer_data = customer_data_analyzer.preprocess_data(customer_records)
         
-        # Show users what we're working with - their raw customer data
+        # Show raw customer data
         st.header("Meet Your Customers")
         st.write("""Before we dive into the magic of customer segmentation, let's take a look at your customer base. 
                  Here's what we know about the people who shop with you:""")
@@ -97,7 +96,6 @@ def main():
         st.write("Here's a peek at your complete customer information - every person who shops with you:")
         st.dataframe(customer_records, use_container_width=True)
         
-        # Let's crunch some numbers about your customers
         st.subheader("The Numbers Behind Your Customers")
         stats_col1, stats_col2 = st.columns(2)
         
@@ -125,7 +123,7 @@ def main():
             )
             st.plotly_chart(gender_breakdown_chart, use_container_width=True)
         
-        # Let's see how your customers are spread across different characteristics
+       
         st.subheader("Understanding Your Customer Patterns")
         
         # Create helpful charts to see customer patterns
@@ -207,7 +205,7 @@ def main():
             data_types = len(customer_records.dtypes.unique())
             st.metric("Data Types", data_types, help="Number of different data types in the dataset")
         
-        # Let's see how different customer characteristics relate to each other
+       
         st.subheader("How Customer Traits Connect")
         important_customer_features = ['Age', 'Annual Income (k$)', 'Spending Score (1-100)']
         # Ensure the data is numeric and calculate correlations
@@ -228,7 +226,7 @@ def main():
         
         st.plotly_chart(correlation_fig, use_container_width=True)
         
-        # Let's tell you what we discovered about your customers
+        
         st.subheader("What We Learned About Your Customers")
         
         insights_text = f"""
@@ -249,10 +247,10 @@ def main():
         
         st.divider()
         
-        # Let's set up your customer analysis preferences
+       
         st.sidebar.header("Let's Customize Your Analysis!")
         
-        # How many customer groups should we look for?
+       
         max_clusters = st.sidebar.slider(
             "How many customer groups should we explore?",
             min_value=2,
@@ -261,7 +259,7 @@ def main():
             help="We'll test different numbers of groups and help you find the sweet spot!"
         )
         
-        # Which method should we use to find customer groups?
+        
         st.sidebar.subheader("Choose Your Analysis Method")
         selected_algorithm = st.sidebar.selectbox(
             "Pick your favorite approach:",
@@ -301,7 +299,7 @@ def main():
                 help="Linkage method for hierarchical clustering"
             )
         
-        # Which customer traits should we focus on?
+        
         st.sidebar.subheader("What Should We Look At?")
         st.sidebar.write("Select the customer characteristics you want to group by:")
         use_age = st.sidebar.checkbox("Customer Age (How old are they?)", value=True)
@@ -312,7 +310,7 @@ def main():
             st.sidebar.error("Oops! Please pick at least one customer characteristic to analyze. We need something to work with!")
             return
         
-        # Let's prepare the customer characteristics you selected
+       
         customer_characteristics_to_analyze = []
         if use_age:
             customer_characteristics_to_analyze.append('Age')
@@ -321,10 +319,10 @@ def main():
         if use_spending:
             customer_characteristics_to_analyze.append('Spending Score (1-100)')
         
-        # Set up our smart customer analysis engine
+        # Set up smart customer analysis engine
         customer_analysis_engine = CustomerSegmentation()
         
-        # Initialize variables with default values to prevent "possibly unbound" errors
+        # Initialize variables with default values to prevent unbound errors
         clustered_customer_records = clean_customer_data.copy()
         cluster_centers = None
         optimal_k = 0
@@ -333,9 +331,8 @@ def main():
         comparison_results = {}
         linkage_matrix = None
         
-        # Algorithm mapping was already done above after selectbox
         
-        # Now let's find your customer groups using your chosen method!
+        
         if algo == "K-Means++":
             # Find optimal clusters
             with st.spinner("Finding optimal number of clusters..."):
@@ -356,7 +353,7 @@ def main():
                     clean_customer_data, customer_characteristics_to_analyze, eps, min_samples
                 )
                 optimal_k = n_clusters
-                inertias, silhouette_scores = [], []  # Not applicable for DBSCAN
+                inertias, silhouette_scores = [], []  
         
         elif algo == "Hierarchical":
             # Use optimal k from elbow method for hierarchical
@@ -681,7 +678,6 @@ def main():
         # Detailed cluster statistics
         st.header("Detailed Cluster Statistics")
         
-        # Calculate cluster statistics
         cluster_stats = clustered_customer_records.groupby('Cluster').agg({
             'Age': ['mean', 'std', 'min', 'max'],
             'Annual Income (k$)': ['mean', 'std', 'min', 'max'],
