@@ -6,9 +6,9 @@ import warnings
 warnings.filterwarnings('ignore')
 
 class DataProcessor:
-    """
-    Handles data loading, cleaning, and preprocessing for customer segmentation analysis.
-    """
+    
+   # Handles data loading, cleaning, and preprocessing for customer segmentation analysis.
+  
     
     def __init__(self):
         self.scaler = StandardScaler()
@@ -16,15 +16,9 @@ class DataProcessor:
         self.processed_data = None
     
     def load_data(self, file_path):
-        """
-        Load customer data from CSV file.
+       
+       # Load customer data from CSV file.
         
-        Args:
-            file_path (str): Path to the CSV file
-            
-        Returns:
-            pd.DataFrame: Loaded customer data
-        """
         try:
             df = pd.read_csv(file_path)
             self.original_data = df.copy()
@@ -36,23 +30,17 @@ class DataProcessor:
             if missing_columns:
                 raise ValueError(f"Missing required columns: {missing_columns}")
             
-            st.success(f"✅ Successfully loaded {len(df)} customer records")
+            st.success(f"Successfully loaded {len(df)} customer records")
             return df
             
         except Exception as e:
-            st.error(f"❌ Error loading data: {str(e)}")
+            st.error(f"Error loading data: {str(e)}")
             raise e
     
     def preprocess_data(self, df):
-        """
-        Clean and preprocess the customer data.
-        
-        Args:
-            df (pd.DataFrame): Raw customer data
-            
-        Returns:
-            pd.DataFrame: Cleaned and preprocessed data
-        """
+      
+        #Clean and preprocess the customer data.
+       
         try:
             # Create a copy for processing
             processed_df = df.copy()
@@ -93,7 +81,7 @@ class DataProcessor:
             # Display preprocessing summary
             if duplicates_removed > 0 or missing_removed > 0 or outliers_removed > 0:
                 st.info(f"""
-                📊 **Data Preprocessing Summary:**
+                **Data Preprocessing Summary:**
                 - Original records: {initial_count}
                 - Duplicates removed: {duplicates_removed}
                 - Missing values removed: {missing_removed}
@@ -110,28 +98,25 @@ class DataProcessor:
             return processed_df
             
         except Exception as e:
-            st.error(f"❌ Error preprocessing data: {str(e)}")
+            st.error(f"Error preprocessing data: {str(e)}")
             raise e
     
     def display_data_summary(self, df):
-        """
+       
         Display summary statistics of the processed data.
         
-        Args:
-            df (pd.DataFrame): Processed customer data
-        """
         try:
-            st.subheader("📊 Data Summary")
+            st.subheader("Data Summary")
             
             col1, col2 = st.columns(2)
             
             with col1:
-                st.write("**📈 Numerical Statistics**")
+                st.write("**Numerical Statistics**")
                 numeric_cols = ['Age', 'Annual Income (k$)', 'Spending Score (1-100)']
                 st.dataframe(df[numeric_cols].describe())
             
             with col2:
-                st.write("**👥 Gender Distribution**")
+                st.write("**Gender Distribution**")
                 gender_dist = df['Gender'].value_counts()
                 st.dataframe(gender_dist.to_frame('Count'))
             
@@ -141,44 +126,31 @@ class DataProcessor:
                               labels=['18-25', '26-35', '36-50', '51-65', '65+'])
             age_dist = pd.Series(age_groups).value_counts().sort_index()
             
-            st.write("**🎂 Age Group Distribution**")
+            st.write("**Age Group Distribution**")
             st.dataframe(age_dist.to_frame('Count'))
             
         except Exception as e:
             st.warning(f"Could not display data summary: {str(e)}")
     
     def scale_features(self, df, feature_columns):
-        """
-        Scale the selected features for clustering.
         
-        Args:
-            df (pd.DataFrame): Customer data
-            feature_columns (list): List of column names to scale
-            
-        Returns:
-            np.ndarray: Scaled feature matrix
-        """
+       # Scale the selected features for clustering.
+        
         try:
             features = df[feature_columns].values
             scaled_features = self.scaler.fit_transform(features)
             
-            st.success(f"✅ Successfully scaled {len(feature_columns)} features")
+            st.success(f"Successfully scaled {len(feature_columns)} features")
             return scaled_features
             
         except Exception as e:
-            st.error(f"❌ Error scaling features: {str(e)}")
+            st.error(f"Error scaling features: {str(e)}")
             raise e
     
     def get_feature_importance(self, df):
-        """
-        Calculate basic feature statistics for importance analysis.
+       
+       # Calculate basic feature statistics for importance analysis.
         
-        Args:
-            df (pd.DataFrame): Customer data
-            
-        Returns:
-            dict: Feature importance metrics
-        """
         try:
             numeric_cols = ['Age', 'Annual Income (k$)', 'Spending Score (1-100)']
             importance = {}
@@ -197,17 +169,9 @@ class DataProcessor:
             return {}
     
     def detect_outliers(self, df, column, method='iqr'):
-        """
-        Detect outliers in a specific column.
         
-        Args:
-            df (pd.DataFrame): Customer data
-            column (str): Column name to analyze
-            method (str): Method for outlier detection ('iqr' or 'zscore')
-            
-        Returns:
-            pd.Series: Boolean series indicating outliers
-        """
+       # Detect outliers in a specific column.
+    
         try:
             if method == 'iqr':
                 Q1 = df[column].quantile(0.25)
